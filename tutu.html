@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#snake{
+				box-shadow: 2px 2px 10px #333;
+/*				float: left;*/
+			}
+			
+		</style>
+	</head>
+	<body>
+		<canvas id="snake" width="400" height="400"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("snake");
+		var context = canvas.getContext("2d");
+		
+		var mapData = [0, 0, 1, 0, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 0, 0, 8, 0, 0, 0, 0, 0, 0];
+		
+		
+		
+		
+		var mapArr = [];
+		
+		
+		
+		
+		function Map(x,y,color){
+			this.w = 40;
+			this.h = 40;
+			this.x = x;
+			this.y = y;
+			this.color = color;
+		}
+		var img1 = new Image();
+		var img2 = new Image();
+		var img3 = new Image();
+		img1.src="img/orangeblock.png";
+//		function drawmap(imgname,imgsrc){
+//			img1.src = "img/bBtn_bgd.png";
+//		}
+		Map.prototype.draw = function (){
+//			var image = new Image();
+
+		context.fillStyle = this.color;
+		context.fillRect(this.x,this.y,this.w,this.h);
+//			img1.onload = function(){
+//				context.drawImage(img1,this.x,this.y);
+//			}
+		}
+		
+		
+		function init(){
+			var row = 0;
+			for (var i=0; i<mapData.length; i++){
+				
+				if (i%10==0&&i!=0){
+					row++;
+				}
+				if (mapData[i]==1){
+					var x = i%10*40;
+					var y = row*40;
+					var mapObj = new Map(x,y,'red');
+					mapArr.push(mapObj);
+				}
+				else if(mapData[i]==2){
+					var x = i%10*40;
+					var y = row*40;
+					var mapObj1 = new Map(x,y,'blue');
+					mapArr.push(mapObj1);
+				}
+			}
+		}
+			
+			init();
+			for (var i=0; i<mapArr.length; i++){
+				mapArr[i].draw();
+			}
+	</script>
+</html>

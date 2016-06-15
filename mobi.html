@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/mytank.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#snake {
+				box-shadow: 2px 2px 10px #333;
+				position: absolute;
+				left: 50px;
+				top: 70px;
+				background: skyblue;
+				cursor: url(img/cursorActive.cur);*/
+				background: url(img/l1.jpg) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<canvas id="snake" width="1000" height="800"></canvas>
+
+	</body>
+	<script src="jquery-1.12.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/loading.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var arrImg = ['img/king.png', 'img/frogall.png', 'img/obstacles.png', 'img/enemy1.png', 'img/enemy2.png', 'img/enemy3.png'];
+		loadingFn({
+			imgArr: arrImg,
+			loadingOver: function(imgs) {
+				var myCanvas = document.getElementById("snake");
+				var graphics = myCanvas.getContext("2d");
+				//绘制地图的变量
+				var orange = 1;
+				var green = 2;
+				var blue = 3;
+				var bTouchTime = true;
+				var map1 = [
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+					[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+					[1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1],
+					[1, 0, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1],
+					[1, 0, 0, 0, 2, 2, 2, 2, 3, 3, 1, 3, 3, 2, 2, 2, 2, 0, 0, 1, 1, 0, 1, 0, 1],
+					[1, 0, 0, 0, 2, 2, 2, 3, 3, 1, 1, 1, 3, 3, 2, 2, 2, 0, 0, 0, 1, 1, 1, 0, 1],
+					[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+					[0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0],
+					[0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0],
+					[2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+				];
+				var map2 = [
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 0, 0, 3, 0, 0, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 2, 2, 2, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3],
+					[3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 2, 2, 2, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[3, 3, 3, 3, 3, 3, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 3, 3, 3, 3, 3, 3],
+					[3, 3, 3, 3, 3, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3],
+					[0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+					[3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3],
+					[3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				];
+				var map3 = [
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 1, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+					[2, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 0, 2],
+					[2, 0, 0, 0, 0, 0, 2, 2, 0, 3, 1, 0, 0, 0, 1, 3, 0, 2, 2, 0, 0, 2, 0, 2, 0],
+					[2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 3, 1, 1, 1, 3, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0],
+					[2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0],
+					[2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 2, 0, 0],
+					[2, 2, 2, 2, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 0],
+					[0, 0, 0, 0, 0, 0, 3, 0, 0, 2, 2, 3, 3, 3, 2, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				];
+				var map4 = [
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 2, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 2, 0, 0, 3, 3, 0, 0, 0, 0, 1, 0, 1, 0],
+					[0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 3, 0, 0, 1, 0, 1, 0],
+					[0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 1, 1, 1, 1, 0],
+					[0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 1, 1, 0, 0, 0, 1],
+					[0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 1, 1, 0, 0, 3, 0, 1],
+					[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 1],
+					[0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0],
+					[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0],
+					[0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+					[0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+					[3, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+					[3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+				];
+				var img = new Image();
+				img.src = "img/obstacles.png";
+				var frogimg = new Image();
+				frogimg.src = "img/frogall.png";
+				var timingNum = 0;
+				var allnum = 0;
+				var frogtimer = null;
+				var mobiX = 320;
+				var mobiY = 760;
+				var speed = 0;
+				var cutFrog = 40;
+				var up = 0;
+				var down = 120;
+				var left = 80;
+				var right = 40;
+				//定义青蛙
+				function Frog() {
+					this.x = mobiX;
+					this.y = mobiY;
+					this.w = 40;
+					this.h = 40;
+					this.cutX = 0;
+					this.cutY = 0;
+					this.speedup = 10;
+					this.speeddown = 10;
+					this.speedleft = 10;
+					this.speedright = 10;
+					this.draw = function() {
+						graphics.drawImage(frogimg, this.cutX, this.cutY, 40, 40, this.x, this.y, 40, 40);
+					}
+					
+				}
+				//子弹
+				function Bullet(direct) {
+					var bullet = new Image();
+					this.x = rectObj.x + 10;
+					this.y = rectObj.y;
+					this.w = 20;
+					this.h = 20;
+					this.num = 0;
+					this.draw = function() {
+						graphics.save();
+						graphics.drawImage(frogimg, 0, 160, this.w, this.h, this.x, this.y, 20, 20);
+						graphics.restore();
+					};
+					this.move = function() { //子弹是怎么移动的
+						if (direct == 0) {
+							this.y += 7;
+						}
+						if (direct == 40) {
+							this.x += 7;
+							this.y = rectObj.y + 10;
+						}
+						if (direct == 80) {
+							this.x -= 7;
+							this.y = rectObj.y + 10;
+						}
+						if (direct == 120) {
+							this.y -= 7;
+						}
+					};
+					this.clear = function() { //子弹超出画布就删除
+						if (this.y >= myCanvas.height || this.x >= myCanvas.width || this.y <= 0 || this.x <= 0) {
+							for (var i = 0; i < bullets.length; i++) {
+								if (this == bullets[i]) {
+									bullets.splice(i, 1);
+									return true;
+								}
+							}
+						}
+					};
+					this.bomb = function() {
+						for (var i = 0; i < diamonds.length; i++) {
+							var bombbol = collide(this, diamonds[i]); //子弹与地图碰撞
+							if (bombbol) {
+								diamonds.splice(i, 1);
+								for (var i = 0, len = bullets.length; i < len; i++) {
+									if (bullets[i] == this) {
+										bullets[i].y = myCanvas.height + this.h;
+									}
+								}
+							}
+						}
+					}
+				}
+				//地图
+				function wall(a, b, c) {
+					this.x = a * 40;
+					this.y = b * 40;
+					this.w = 40;
+					this.h = 40;
+					this.color = c * 40;
+					this.draw = function() {
+						graphics.drawImage(img, this.color, 0, 40, 40, this.x, this.y, 40, 40);
+					}
+				}
+				var king = new Image();
+				king.src = "img/king.png";
+
+				function bigking() { //大王
+					this.x = 448;
+					this.y = 720;
+					this.w = 66;
+					this.h = 80;
+					this.draw = function() {
+						graphics.drawImage(king, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+					};
+					this.kingbomb = function() {
+						for (var i = 0; i < bullets.length; i++) {
+							var kingbol = collide(this, bullets[i]); //家与子弹碰撞
+							if (kingbol) {
+								//alert("a");
+							}
+						}
+					}
+				};
+				var diamonds = [];
+				//		function drawMap() {
+				for (var i = 0; i < 20; i++) { //竖
+					for (var j = 0; j < 25; j++) { //横		
+						if (map1[i][j] == orange) {
+							var kuai = new wall(j, i, 0);
+							kuai.draw();
+							diamonds.push(kuai);
+						} else if (map1[i][j] == green) {
+							kuai = new wall(j, i, 1);
+							kuai.draw();
+							diamonds.push(kuai);
+						} else if (map1[i][j] == blue) {
+							kuai = new wall(j, i, 2);
+							kuai.draw();
+							diamonds.push(kuai);
+						}
+					}
+				}
+				//		}
+				// 生成静态地图；
+				//		drawMap();
+				var bullets = [];
+				//画子弹
+				function drawBullet() {
+					for (var i = 0; i < bullets.length; i++) {
+						bullets[i].draw();
+						bullets[i].move();
+						bullets[i].bomb();
+						var butBol = bullets[i].clear();
+						if (butBol) {
+							i--;
+						}
+					}
+				}
+
+				function emybullet(x, y, directs) {
+					this.x = x;
+					this.y = y;
+					this.w = 20;
+					this.h = 20;
+					this.directs = directs;
+					this.draw = function() {
+						graphics.drawImage(frogimg, 0, 160, this.w, this.h, this.x, this.y, this.w, this.h);
+					};
+					this.run = function() {
+						switch (this.directs) {
+							case 0:
+								this.y -= 7;
+								break;
+							case 1:
+								this.x += 7;
+								break;
+							case 2:
+								this.y += 7;
+								break;
+							case 3:
+								this.x -= 7;
+								break;
+						}
+					};
+					this.clear = function() {
+						if (this.y >= myCanvas.height || this.x >= myCanvas.width || this.y <= 0 || this.x <= 0) {
+							for (var i = 0; i < emybulletsarr.length; i++) {
+								if (this == emybulletsarr[i]) {
+									emybulletsarr.splice(i, 1);
+									return true;
+								}
+							}
+						}
+					};
+					this.emybulletbomb = function() {
+						for (var i = 0; i < diamonds.length; i++) {
+							var emybombbol = collide(this, diamonds[i]);
+							if (emybombbol) {
+								diamonds.splice(i, 1);
+								for (var i = 0, len = emybulletsarr.length; i < len; i++) {
+									if (emybulletsarr[i] == this) {
+										emybulletsarr[i].y = myCanvas.height + this.h;
+									}
+								}
+							}
+						}
+					}
+				}
+				var emys = [];
+				var reBol = false;
+				var emybulletbnum1 = 0;
+				var emybulletbnum2 = 0;
+				var emybulletbnum3 = 0;
+				var emybulletbnum4 = 0;
+
+				function Emy(enemy, direction) {
+					this.w = 40;
+					this.h = 40;
+					this.cutx = 0;
+					this.cuty = 0;
+					this.speed = 1;
+					this.count = 0;
+					this.direction = direction;
+					this.x = rand(0, 100 && 800, 900);
+					this.y = 0;
+					this.draw = function() {
+						graphics.save();
+						graphics.drawImage(enemy, this.cutx, this.cuty, this.w, this.h, this.x, this.y, this.w, this.h);
+						graphics.restore();
+					};
+					this.move = function() {
+						switch (this.direction) {
+							case 0: //往上走
+								if (this.y - this.speed > 0) {
+									this.y -= this.speed;
+								}
+								this.cuty = 120;
+								emybulletbnum1++;
+								if (emybulletbnum1 % 80 == 0) {
+									var emybullets = new emybullet(this.x + 3, this.y - 10, this.direction);
+									emybulletsarr.push(emybullets);
+								}
+								break;
+							case 1: //往右走
+								if (this.x + this.speed < 960) {
+									this.x += this.speed;
+								}
+								this.cuty = 40;
+								emybulletbnum2++;
+								if (emybulletbnum2 % 80 == 0) {
+									var emybullets = new emybullet(this.x + 10, this.y + 10, this.direction);
+									emybulletsarr.push(emybullets);
+								}
+								break;
+							case 2: //往下走
+								if (this.y + this.speed < 760) {
+									this.y += this.speed;
+								}
+								this.cuty = 0;
+								emybulletbnum3++;
+								if (emybulletbnum3 % 80 == 0) {
+									var emybullets = new emybullet(this.x + 3, this.y + 10, this.direction);
+									emybulletsarr.push(emybullets);
+								}
+								break;
+							case 3: //往左走
+								if (this.x - this.speed > 0) {
+									this.x -= this.speed;
+								}
+								this.cuty = 80;
+								emybulletbnum4++;
+								if (emybulletbnum4 % 80 == 0) {
+									var emybullets = new emybullet(this.x - 7, this.y + 10, this.direction);
+									emybulletsarr.push(emybullets);
+								}
+								break;
+						}
+						this.count++;
+						if (this.count > 100) { //加到100切换方向
+							this.direction = rand(0, 4);
+							this.count = 0;
+						}
+					};
+					this.crash = function() {
+						for (var i = 0; i < diamonds.length; i++) {
+							var emybol = collide(this, diamonds[i]);
+							if (emybol) {
+								//this.direction = rand(0,4);
+								if (this.direction == 0) {
+									this.direction = rand(1, 4);
+								}
+								if (this.direction == 1) {
+									this.direction = rand(0 && 2, 4);
+								}
+								if (this.direction == 2) {
+									this.direction = rand(3 && 0, 2);
+								}
+								if (this.direction == 3) {
+									this.direction = rand(0, 3);
+								}
+							}
+						}
+					}
+				}
+
+				function createEmy() {
+					var emyR = rand(1, 100);
+					if (emyR >= 0 && emyR <= 65) {
+						var emyImg = new Image();
+						emyImg.src = "img/enemy1.png";
+					} else if (emyR > 65 && emyR <= 85) {
+						var emyImg = new Image();
+						emyImg.src = "img/enemy2.png";
+					} else {
+						var emyImg = new Image();
+						emyImg.src = "img/enemy3.png";
+					}
+					var emyobj = new Emy(emyImg, rand(0, 3));
+					emys.push(emyobj);
+				}
+				var rectObj = new Frog();
+				var num = 0;
+				var nums = 0;
+				var emybulletnum = 0;
+				var emybulletsarr = [];
+
+				function main() {
+					for (var i = 0; i < diamonds.length; i++) {
+						diamonds[i].draw(); //画的每一块地图
+					}
+					timingNum++;
+					if (timingNum % 7 == 0) {
+						rectObj.cutX += 40;
+						if (rectObj.cutX >= 160) {
+							rectObj.cutX = 0;
+						}
+					}
+					drawBullet();
+					rectObj.draw();
+					
+					var drawking = new bigking();
+					drawking.draw();
+					drawking.kingbomb();
+					nums++;
+					if (nums % 300 == 0) { //敌人出现的频率
+						createEmy();
+					}
+					if (nums >= 500) {
+						nums = 0;
+					}
+					num++;
+					for (var i = 0; i < emys.length; i++) {
+						emys[i].draw();
+						emys[i].move();
+						emys[i].crash();
+						if (num % 7 == 0) {
+							emys[i].cutx += 40;
+							if (emys[i].cutx >= 160) {
+								emys[i].cutx = 0;
+							}
+						}
+						if (reBol) {
+							i--;
+							reBol = false;
+						}
+					}
+					for (var i = 0; i < emybulletsarr.length; i++) {
+						emybulletsarr[i].draw();
+						emybulletsarr[i].run();
+						emybulletsarr[i].emybulletbomb();
+						var butBoll = emybulletsarr[i].clear();
+						if (butBoll) {
+							i--;
+						}
+					}
+				}
+				document.onkeydown = function(ev) {
+					var ev = ev || window.event;
+					if (bTouchTime == false) {
+						return; //键盘再怎么点。每次都只能执行一次
+					}
+					bTouchTime = false;
+					setTimeout(function() {
+						bTouchTime = true;
+					}, 200);
+					switch (ev.keyCode) {
+						case 37: //左
+							mobiX -= 20;
+							if (mobiX <= 0) {
+								mobiX = 0;
+							} else if (mobiX >= 960) {
+								mobiX = 960;
+							}
+							rectObj.x = mobiX;
+							rectObj.cutY = left;
+
+							rectObj.speedup = 10;
+							rectObj.speeddown = 10;
+							rectObj.speedright = 10;
+							for (var i = 0; i < diamonds.length; i++) {
+								var frogstop = collide(rectObj, diamonds[i]);
+								if (frogstop) {
+									rectObj.speedleft = 0;
+									rectObj.x += 10;
+								}
+							}
+							break;
+						case 38:
+							mobiY -= 20;
+							if (mobiY <= 0) {
+								mobiY = 0;
+							} else if (mobiY >= 760) {
+								mobiY = 760;
+							}
+							rectObj.y = mobiY;
+							rectObj.cutY = down;
+							rectObj.speedup = 10;
+							rectObj.speedleft = 10;
+							rectObj.speedright = 10;
+							for (var i = 0; i < diamonds.length; i++) {
+								var frogstop = collide(rectObj, diamonds[i]); //青蛙与地图碰撞
+								if (frogstop) {
+									rectObj.speeddown = 0;
+									rectObj.y += 10;
+								}
+							}
+							break;
+						case 39:
+							mobiX += 20;
+							if (mobiX <= 0) {
+								mobiX = 0;
+							} else if (mobiX >= 960) {
+								mobiX = 960;
+							}
+							rectObj.x = mobiX;
+							rectObj.cutY = right;
+							rectObj.speedup = 10;
+							rectObj.speedleft = 10;
+							rectObj.speeddown = 10;
+							for (var i = 0; i < diamonds.length; i++) {
+								var frogstop = collide(rectObj, diamonds[i]);
+								if (frogstop) {
+									rectObj.speedright = 0;
+									rectObj.x -= 10;
+								}
+							}
+							break;
+						case 40:
+							mobiY += 20;
+							if (mobiY <= 0) {
+								mobiY = 0;
+							} else if (mobiY >= 760) {
+								mobiY = 760;
+							}
+							rectObj.y = mobiY;
+							rectObj.cutY = up;
+							rectObj.speeddown = 10;
+							rectObj.speedleft = 10;
+							rectObj.speedright = 10;
+							for (var i = 0; i < diamonds.length; i++) {
+								var frogstop = collide(rectObj, diamonds[i]);
+								if (frogstop) {
+									rectObj.speedup = 0;
+									rectObj.y -= 10;
+								}
+							}
+							break;
+						case 32:
+							var bulletObj = new Bullet(rectObj.cutY);
+							bullets.push(bulletObj);
+							break;
+					}
+				}
+
+				function animate() {
+					graphics.clearRect(0, 0, myCanvas.width, myCanvas.height);
+					main();
+					window.requestAnimationFrame(animate);
+				}
+				animate();
+				//碰撞-----------------------------------------------------
+				function collide(obj1, obj2) {
+					var l1 = obj1.x;
+					var r1 = l1 + obj1.w;
+					var t1 = obj1.y;
+					var b1 = t1 + obj1.h;
+					var l2 = obj2.x;
+					var r2 = l2 + obj2.w;
+					var t2 = obj2.y;
+					var b2 = t2 + obj2.h;
+					if (r1 > l2 && l1 < r2 && b1 > t2 && t1 < b2) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				function rand(min, max) {
+					return parseInt(Math.random() * (max - min)) + min;
+				}
+			}
+		});
+	</script>
+
+</html>

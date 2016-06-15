@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="blueblock" tilewidth="40" tileheight="40">
+  <image source="../img/blueblock.png" trans="ff00ff" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="2" name="greenblock" tilewidth="40" tileheight="40">
+  <image source="../img/greenblock.png" trans="ff00ff" width="40" height="40"/>
+ </tileset>
+ <tileset firstgid="3" name="orgblock" tilewidth="40" tileheight="40">
+  <image source="../img/orgblock.png" trans="ff00ff" width="40" height="40"/>
+ </tileset>
+ <layer name="块层 1" width="25" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzdlNsKgDAMQ7v6//8sPgxKSC+bVsRAmFiX07KhyH90NFrM2t1/1yyM8YQU8iJGxsS6wpoxstlYfZWxozcYyPoaI7sLlTOrMNi9x/odxqVhnPURMaYUPLPx2ZrNVGWwTPYumqnzX5X1jxrE1b34jSfM9M4+yonyVxge5wSU/QH9
+  </data>
+ </layer>
+</map>

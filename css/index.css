@@ -1,0 +1,406 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+ul,ol,li{
+	list-style: none;
+}
+.wrap{
+	width: 100%;
+	height: 712px;
+	max-width: 2000px;
+	position: relative;
+}
+.wrapbg{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -10;
+	overflow: hidden;
+}
+.bgall{
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.bgall div{
+	/*min-width: 1500px;*/
+	max-width: 2000px;
+	height: 100%;
+	background-size: 100% 100%;
+	float: left;
+	position: relative;
+}
+.title{
+	width: 960px;
+	text-align: center;
+}
+.title ul{
+	overflow: hidden;
+}
+.title ul li{
+	background: url(../img/title.png);
+	float: left;
+	font-size: 2em;
+	color: #622d0a;
+}
+.choose{
+	width: 1110px;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 450px;
+}
+.choose ul{
+	overflow: hidden;
+}
+.choose ul li{
+	width: 151px;
+    height: 151px;
+    float: left;
+    margin: 0 30px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.chooseactive{
+	border: 6px solid #fff;
+		border-radius: 39px;
+}
+.choose ul li:hover{
+	-webkit-animation: rubberBand .75s linear 1;
+}			
+.choose ul li:nth-child(1){
+	background: url(../img/choose.png) 185px -14px;
+}
+.choose ul li:nth-child(2){
+	background: url(../img/choose.png) 387px -15px;
+}
+.choose ul li:nth-child(3){
+	background: url(../img/choose.png) -45px -15px;
+}
+.choose ul li:nth-child(4){
+	background: url(../img/choose.png) -249px -16px;
+}
+.choose ul li:nth-child(5){
+	background: url(../img/choose.png) 589px -16px;
+}
+.clicks{
+	position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 2;
+}
+.clicks div{
+	width: 29px;
+	height: 31px;
+	margin: 0 5px;
+	display: inline-block;
+	background-image: url(../img/dian.png);
+	background-position: 30px 0;
+	overflow: hidden;
+}
+.clicks div:hover{
+	background-position: 0 0;
+}
+.left{
+	width: 50px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 10%;
+	cursor: pointer;
+}
+.left span{
+	width: 21px;
+	height: 28px;
+	margin-top: 350px;		
+	background: url(../img/jt.png);
+	display: inline-block;
+}
+.right{
+	width: 50px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 10%;
+	float: right;
+	cursor: pointer;
+}
+.right span{	
+	width: 21px;
+	height: 28px;
+	margin-top: 350px;			
+	background: url(../img/jt.png) 0 28px;
+	display: inline-block;
+}
+.bgbb{
+	position: absolute;
+	top: 10%;
+	left: 50%;
+}
+.bgbbb{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.footer{
+	width: 100%;
+	position: relative;
+	 
+}
+.changtiao{
+	border-top: 2px solid #622d0a;
+	height: 4px;
+	background: url(../img/download.jpg) repeat;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+.footer_top{
+	width: 100%;
+	height: 150px;
+	background: #8e371c;
+}
+.f_center{
+	width: 1110px;
+	padding-left: 90px;
+	height:150px;
+	margin: 0 auto;
+	position: relative;
+	background: url(../img/f1.jpg) no-repeat;	
+}
+
+.f_left{
+	width: 385px;
+    height: 170px;
+    float: left;
+    background: url(../img/qw.png) no-repeat;
+    position: relative;
+    top: -10px;
+}
+.meet{
+	position: absolute;
+	left:135px;
+	top:60px;
+}
+.f_cen{
+	float: left;
+	list-style: none;
+	width: 385px;
+	height: 137px;
+	padding: 20px 0 0 10px;
+	
+}
+.ul1 li:nth-child(1){
+	color: #000;
+	font-size: 18px;
+	font-weight: bold;
+}
+.ul1 {
+	height: 150px;
+	float: left;
+	margin-right: 15px;
+}
+.ul1 li span{
+	font-weight: bold;
+	display: block;
+	font-size: 14px;
+	margin-top: 3px;
+	color: #fff;
+	text-decoration: none;
+}
+.ul1 li span:hover{
+	text-decoration:underline;
+}
+.ul2 li:nth-child(2){
+	width:82px;
+	cursor: pointer;
+	height: 80px;
+	background: url(../img/ico.png) -126px -106px no-repeat;
+}
+.ul3 li:nth-child(2){
+	cursor: pointer;
+	width:82px;
+	height: 80px;
+	background: url(../img/ico.png) -22px -105px no-repeat;
+}
+.ul2,.ul3{
+	float: left;
+	color: #000;
+	font-size: 18px;
+	font-weight: bold;
+	width: 82px;
+	height: 150px;
+	list-style: none;
+	margin-right: 10px;
+	
+}
+.ul1 li:nth-child(1),.ul2 li:nth-child(1),.ul3 li:nth-child(1){
+	font-family: "arial rounded mt bold";
+}
+
+.f_right{
+	float: left;
+	position: relative;
+	
+}
+.sign{cursor: pointer;
+	position: absolute;
+    top:-48px;
+	width: 328px;
+	height: 198px;
+	background: url(../img/xf.png) 0 0 no-repeat;	
+}
+.sign_text1{
+	position: absolute;
+	top: 113px;
+	left: 28px;
+	
+}
+.sign_text2{
+	position: absolute;
+	top: 150px;
+	left: 25px;
+	
+}
+.up{cursor: pointer;
+	display: none;
+	position: absolute;
+    top:-48px;
+	width: 328px;
+	height: 198px;
+	background: url(../img/xf.png) 0 -198px no-repeat;
+}
+.up input[type=text]:focus{
+	outline: none;
+	border:2px solid yellow;
+}
+.name,.email{
+	position: absolute;
+	border: 2px solid #ecae5f;
+	border-radius:30px;
+	padding: 0 0 0 5px;
+	width: 130px;
+	height: 30px;
+	padding-left: 60px;
+	font-family: "Comic Sans MS";
+}
+.name{	
+	left:28px;
+	top:100px;	
+}
+.email{
+	left:28px;
+	top:145px;
+	
+}
+.label1,.label2{
+	color: #723311;
+	font-size: 14px;
+	font-family: "Comic Sans MS";
+}
+.label1{
+	position: absolute;
+	left:40px;
+	top:106px;
+}
+.label2{
+	position: absolute;
+	left:40px;
+	top:151px;
+}
+
+.ok{
+	width: 60px;
+  	height: 60px;
+  	background: url(../img/ico.png) -682px -33px no-repeat;
+	position: absolute;
+	left:239px;
+	top: 103px;
+	border: none;
+	cursor: pointer;
+}
+.ok:hover{
+  	background: url(../img/ico.png) -682px -122px no-repeat;
+}
+.ok:focus{
+	outline: none;
+}
+.foo{
+	position: absolute;
+	left:445px;
+	bottom:-1px;
+}
+.footer_bottom{
+	width: 100%;
+	height:90px;
+	background:#873623;　
+}
+.banquan{
+	color: #fff;
+	font-size: 16px;
+	width: 500px;
+	height:55px;
+	margin: 0 auto;
+	text-align: center;
+}
+.ul2 li:nth-child(2):hover,.ul3 li:nth-child(2):hover,.ok:hover{
+	-webkit-animation: rubberBandtwo .25s linear 1;
+}
+.prompt{
+	position: absolute;
+    top: 180px;
+    left: 35px;
+    font-size: 12px;
+    font-family: 'Consolas';
+    display: none;
+}
+/*----------------动画效果-----------------*/
+@-webkit-keyframes rubberBand {
+0% {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+}
+
+25% {
+	-webkit-transform: scale3d(1.15, 0.85, 1);
+	transform: scale3d(1.15, 0.85, 1);
+}
+
+50% {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+}
+
+75% {
+	-webkit-transform: scale3d(1.15, 0.85, 1);
+	transform: scale3d(1.15, 0.85, 1);
+}
+100% {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+@-webkit-keyframes rubberBandtwo {
+0% {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+}
+
+50% {
+	-webkit-transform: scale3d(1.15, 0.85, 1);
+	transform: scale3d(1.15, 0.85, 1);
+}
+
+100% {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			ul,
+			li {
+				list-style: none;
+			}
+			
+			.demo {
+				width: 1200px;
+				height: 401px;
+				margin: 100px auto;
+				background: paleturquoise;
+				position: relative;
+			}
+			
+			.frogs {
+				float: left;
+				width: 215px;
+				height: 0;
+				background: rgba(255, 255, 255, .85);
+				border-radius: 20px;
+				margin-left: 20px;
+				margin-top: 70px;
+				position: relative;
+				text-align: center;
+			}
+			
+			.chooseactive {
+				border: 6px solid #fff;
+				border-radius: 39px;
+			}
+			
+			.play {
+				position: absolute;
+				top: 150px;
+				left: 70px;
+				background: url(img/ico.png) -596px -17px;
+				height: 75px;
+				width: 70px;
+			}
+			.play:hover{
+				background: url(img/ico.png) -596px -106px;
+			}
+			
+			.froginside {
+				width: 150px;
+				height: 150px;
+				margin-top: -68px;
+				display: none;
+				margin-left: 32px;
+			}
+			
+			.froginside:nth-child(1) {
+				background: url(img/choose.png) 185px -14px;
+			}
+			
+			.froginside:nth-child(2) {
+				background: url(img/choose.png) 387px -15px;
+			}
+			
+			.froginside:nth-child(3) {
+				background: url(img/choose.png) -45px -15px;
+			}
+			
+			.froginside:nth-child(4) {
+				background: url(img/choose.png) -248px -14px;
+			}
+			
+			.froginside:nth-child(5) {
+				background: url(img/choose.png) 590px -14px;
+			}
+			
+			.frog {
+				width: 150px;
+				height: 150px;
+				z-index: 9999;
+			}
+			
+			.frog:nth-child(1) {
+				background: url(img/choose.png) 185px -14px;
+				position: absolute;
+				top: 150px;
+				left: 48px;
+			}
+			
+			.frog:nth-child(2) {
+				background: url(img/choose.png) 387px -15px;
+				position: absolute;
+				top: 150px;
+				left: 286px;
+			}
+			
+			.frog:nth-child(3) {
+				background: url(img/choose.png) -45px -15px;
+				position: absolute;
+				top: 150px;
+				left: 522px;
+			}
+			
+			.frog:nth-child(4) {
+				background: url(img/choose.png) -248px -14px;
+				position: absolute;
+				top: 150px;
+				left: 757px;
+			}
+			
+			.frog:nth-child(5) {
+				background: url(img/choose.png) 590px -14px;
+				position: absolute;
+				top: 150px;
+				left: 992px;
+			}
+			
+			.frogswrap {
+				position: absolute;
+				top: 0;
+				left: 0;
+				overflow: hidden;
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo">
+			<div class="frog chooseactive"></div>
+			<div class="frog"></div>
+			<div class="frog"></div>
+			<div class="frog"></div>
+			<div class="frog"></div>
+			<div class="frogswrap">
+				<div class="frogs">
+					<div class="froginside"></div>
+					<div>My Om Nom</div>
+					<div class="play"></div>
+				</div>
+
+				<div class="frogs">
+					<div class="froginside"></div>
+					<div>Cut the Rope 2</div>
+					<div class="play"></div>
+				</div>
+
+				<div class="frogs">
+					<div class="froginside"></div>
+					<div>Cut the Rope</div>
+					<div class="play"></div>
+				</div>
+
+				<div class="frogs">
+					<div class="froginside"></div>
+					<div>Cut the Rope</div>
+					<div class="play"></div>
+				</div>
+
+				<div class="frogs">
+					<div class="froginside"></div>
+					<div>Cut the Rope</div>
+					<div class="play"></div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+	<script src="jquery-1.12.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function() {
+			var index = 0;
+			$(".froginside").on("click", function() {
+				var index = $(this).index();
+				$(this).parent().animate({"height": "0"});
+				$(".frog").css("display", "block");
+				$(this).css("display", "none");
+			});
+			$(".frog").on("click", function() {
+				var index = $(this).index();
+				$(".froginside").parent().animate({
+					"height": "0"
+				});
+				$(".froginside").eq(index).parent().animate({
+					"height": "330px"
+				});
+//              $(".froginside").eq(index).parent().addClass("animated zoomInDown");
+				$(".frogs").children().css("display", "none");
+				$(".froginside").eq(index).parent().children().css("display", "block");
+				$(".frog").css("display", "block");
+				$(this).css("display", "none");
+				$(".froginside").eq(index).addClass("chooseactive");
+			});
+		});
+	</script>
+
+</html>

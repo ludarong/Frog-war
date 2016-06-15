@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	    <link rel="stylesheet" type="text/css" href="css/game.css"/>
+	</head>
+	<body>
+		<audio autoplay="autoplay" id="audio_play">
+         <source src="caidan.wav" type="audio/mpeg" >
+         </audio>
+		<div class="wrap">
+		<div class="center5">
+			<a href="play5.html" class="btn1">
+				<img src="img/download.png"/>
+			</a>
+			<a href="###" class="btn2">
+				<img src="img/download-1.png"/>
+			</a>
+			<div class="music">
+				
+			</div>
+			<a href="index.html" class="return">
+				
+			</a>
+			 
+			<div class="shadow">
+			</div>
+			
+		 </div>
+		</div>
+		<footer class="footer">
+			<div class="changtiao"></div>
+			<div class="footer_top">
+				<div class="f_center">
+					<div class="f_left" style="width: 202px;background: url(img/choose.png) 589px -16px;"></div>
+					<div class="f_cen">
+						<ul class="ul1">
+							<li>Games</li>
+							<li><span>My Om Nom</span></li>
+							<li><span>Cut the Rope 2</span></li>
+							<li><span>Cut the Rope: Time Travel</span></li>
+							<li><span>Cut the Rope: Experiments</span></li>
+							<li><span>Cut the Rope</span></li>
+						</ul>
+						<ul class="ul2">
+							<li>Watch</li>
+							<li></li>
+						</ul>
+						<ul class="ul3">
+							<li>Stores</li>
+							<li></li>
+						</ul>
+						
+					</div>
+					<div class="f_right">
+						<div class="sign">
+							<a href="###">
+								<img src="img/sign.png" alt="" class="sign_text1"/>
+								
+							</a>
+							<a href="###">
+								<img src="img/for.png" alt="" class="sign_text2"/>
+							</a>
+						</div>
+						<form action="ourqingwa.html">
+						<div class="up">
+							<input type="text"  class="name"/>
+					        <label for="name" class="label1">Name:</label>
+							<input type="text" class="email"/>
+							<label for="name" class="label2">Email:</label>
+							<label for="name" class="prompt">All fields must be filled.</label>
+							<button class="ok"></button>
+						</div>
+						</form>
+					</div>
+					<img src="img/foo.png" class="foo"/>
+				</div>
+				
+				
+				
+			</div>
+			<div class="footer_bottom">
+				<div class="banquan">
+				 
+				</div>
+			</div>
+			
+			
+		</footer>
+		
+	</body>
+	<script src="js/jquery-1.12.1.min.js" type="text/javascript" charset="utf-8"></script>
+     <script src="js/game.js" type="text/javascript" charset="utf-8"></script>
+     <script type="text/javascript">
+		
+
+	window.onload = function(){
+		var audio_play = document.getElementById("audio_play");
+		var music = document.querySelector(".music");
+		var music_bol = true;
+		music.onclick = function(){
+			if(music_bol){
+            music.style.backgroundPosition="-800px 0";
+            audio_play.pause();
+            music_bol = false;
+         }else{
+            music.style.backgroundPosition="-700px 0";
+            audio_play.play();
+            music_bol = true;
+           }
+		}
+     }
+	</script>
+</html>
+
+
